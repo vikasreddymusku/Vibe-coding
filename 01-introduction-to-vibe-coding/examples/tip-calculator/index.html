@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tip Calculator</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 22rem; margin: 2rem auto; padding: 0 1rem; }
+  label { display: block; margin-top: 1rem; font-weight: 600; }
+  input { width: 100%; padding: .5rem; font-size: 1rem; box-sizing: border-box; }
+  #error { color: #b91c1c; min-height: 1.5rem; margin-top: 1rem; }
+  #result { font-size: 1.25rem; margin-top: .5rem; }
+</style>
+</head>
+<body>
+<h1>Tip Calculator</h1>
+<form id="calc" novalidate>
+  <label for="bill">Bill amount</label>
+  <input id="bill" type="number" min="0" step="0.01" inputmode="decimal">
+  <label for="tip">Tip percent</label>
+  <input id="tip" type="number" min="0" step="1" value="15" inputmode="numeric">
+  <label for="people">Number of people</label>
+  <input id="people" type="number" min="1" step="1" value="1" inputmode="numeric">
+</form>
+<p id="error" role="alert"></p>
+<p id="result" aria-live="polite"></p>
+<script>
+  const bill = document.getElementById('bill');
+  const tip = document.getElementById('tip');
+  const people = document.getElementById('people');
+  const error = document.getElementById('error');
+  const result = document.getElementById('result');
+
+  function calculate() {
+    const b = parseFloat(bill.value);
+    const t = parseFloat(tip.value);
+    const p = parseInt(people.value, 10);
+    error.textContent = '';
+    result.textContent = '';
+    if (bill.value === '') return;
+    if (!(b >= 0) || !(t >= 0) || !(p >= 1)) {
+      error.textContent = 'Enter a bill of 0 or more, a tip of 0 or more, and at least 1 person.';
+      return;
+    }
+    const total = b * (1 + t / 100);
+    result.textContent = 'Each person pays ' + (total / p).toFixed(2);
+  }
+  [bill, tip, people].forEach(el => el.addEventListener('input', calculate));
+</script>
+</body>
+</html>
