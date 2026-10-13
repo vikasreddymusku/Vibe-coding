@@ -1,0 +1,2 @@
+# Direct dependency, pinned to an exact version so every install is the same.
+six==1.16.0
